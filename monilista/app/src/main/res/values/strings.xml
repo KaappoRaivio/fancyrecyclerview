@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">monilista</string>
+    <string name="save">Save</string>
+    <string name="typeheretitle">Give this shit a title</string>
+    <string name="typeherebody">Type some letters</string>
+    <string name="delete">delete</string>
 </resources>

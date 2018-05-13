@@ -10,30 +10,36 @@ import java.util.List;
 
 public class Viewholders {
 
-    static class ViewHolderWithButton extends RecyclerView.ViewHolder {
-        Button button;
-        TextView content;
+    static class ViewHolderNewItem extends RecyclerView.ViewHolder {
+        TextView body;
+        TextView title;
+        Button delete;
         RelativeLayout wrapper;
 
 
-        public ViewHolderWithButton (View v) {
+        public ViewHolderNewItem (View v) {
             super(v);
 
-            button = v.findViewById(R.id.button);
-            content = v.findViewById(R.id.content);
+            title = v.findViewById(R.id.title);
+            body = v.findViewById(R.id.body);
+            delete = v.findViewById(R.id.delete);
             wrapper = v.findViewById(R.id.wrapper);
 
         }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView content;
+    static class ViewHolderExistingItem extends RecyclerView.ViewHolder {
+        TextView body;
+        TextView title;
+        Button delete;
         RelativeLayout wrapper;
 
-        public ViewHolder (View v) {
+        public ViewHolderExistingItem (View v) {
             super(v);
 
-            content = v.findViewById(R.id.content);
+            title = v.findViewById(R.id.title);
+            body = v.findViewById(R.id.body);
+            delete = v.findViewById(R.id.delete);
             wrapper = v.findViewById(R.id.wrapper);
 
 

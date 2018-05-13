@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -44,11 +42,11 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int layoutID;
 
         if (getItemViewType(position) == ListAdapter.TYPE_NORMAL) {
-            final View v = layoutInflater.inflate(R.layout.layout_normal, viewGroup, false);
+            final View v = layoutInflater.inflate(R.layout.item, viewGroup, false);
             return new Viewholders.ViewHolder(v);
 
         } else {
-            final View v = layoutInflater.inflate(R.layout.layout_button, viewGroup, false);
+            final View v = layoutInflater.inflate(R.layout.new_item, viewGroup, false);
             return new Viewholders.ViewHolderWithButton(v);
         }
     }
