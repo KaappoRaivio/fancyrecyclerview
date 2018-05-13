@@ -13,7 +13,7 @@ public class Viewholders {
     static class ViewHolderNewItem extends RecyclerView.ViewHolder {
         TextView body;
         TextView title;
-        Button delete;
+        Button save;
         RelativeLayout wrapper;
 
 
@@ -22,7 +22,7 @@ public class Viewholders {
 
             title = v.findViewById(R.id.title);
             body = v.findViewById(R.id.body);
-            delete = v.findViewById(R.id.delete);
+            save = v.findViewById(R.id.save);
             wrapper = v.findViewById(R.id.wrapper);
 
         }

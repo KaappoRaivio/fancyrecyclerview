@@ -6,62 +6,81 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Entry {
-    private static List<Entry> entryList = new ArrayList<>();
+    private static List<Entry> entries = new ArrayList<>();
 
-    public static String ROW_NORMAL = "normal";
-    public static String ROW_NORMAL_WITH_BUTTON = "button";
+    public static Entry PLACEHOLDER = new Entry(true);
 
-    private String type;
+    private String title;
     private String content;
-    private String buttonText;
+    private boolean placeholder;
+    private int ID;
 
 
-    Entry (String type, String content) {
+    Entry (String title, String content) {
+        this.title = title;
         this.content = content;
-        this.type = type;
-        this.buttonText = String.valueOf(Entry.entryList.size());
+        this.placeholder = false;
+        this.ID = getFreeID();
 
-        entryList.add(this);
+        entries.add(this);
     }
-
-    public static List<Entry> getAll () {
-        populate();
-        return Entry.entryList;
+    Entry (boolean placeholder) {
+        placeholder = true;
     }
 
     private static void populate () {
-        new Entry(Entry.ROW_NORMAL, "no button here");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL, "no button here");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL, "no button here");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL, "no button here");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
-        new Entry(Entry.ROW_NORMAL_WITH_BUTTON, "the magic button!");
+        new Entry("Kauppalista", "Maitoa\nLeipää\nKinkkua\nJuustoa");
+        new Entry("Läksyt", "Matikka: s.8–9, teht. 3–5");
+
     }
 
-    public String getType() {
-        return type;
+    public static List<Entry> get () {
+        populate();
+
+        List<Entry> temp = entries;
+        temp.add(PLACEHOLDER);
+        return temp;
+    }
+
+    private static int getFreeID () {
+        int biggest = -1;
+
+        for (Entry i : entries) {
+            if (i.getID() > biggest) {
+                biggest = i.getID();
+            }
+        }
+
+        return biggest + 1;
+    }
+
+    @Nullable
+    public static Entry findEntryByID (int ID) {
+        for (Entry entry : entries) {
+            if (entry.getID() == ID) {
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getContent() {
         return content;
     }
 
-    @Nullable
-    public String getButtonText () {
-        String temp;
-        if (getType().equals(Entry.ROW_NORMAL_WITH_BUTTON)) {
-            temp = buttonText;
-        } else {
-            temp = null;
-        }
+    public boolean isPlaceholder() {
+        return placeholder;
+    }
 
-        return temp;
+    public static List<Entry> getEntries() {
+        return entries;
+    }
+
+    public int getID() {
+        return ID;
     }
 }

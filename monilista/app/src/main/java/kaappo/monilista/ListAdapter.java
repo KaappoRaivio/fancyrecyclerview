@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,18 +22,13 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType (int position) {
-        String type = this.entries.get(position).getType();
-        int temp;
+        boolean real = !this.entries.get(position).isPlaceholder();
 
-        if (type.equals(Entry.ROW_NORMAL)) {
-            temp = ListAdapter.TYPE_NORMAL;
-        } else if (type.equals(Entry.ROW_NORMAL_WITH_BUTTON)) {
-            temp = ListAdapter.TYPE_NORMAL_WITH_BUTTON;
+        if (real) {
+            return 0;
         } else {
-            temp = 0;
+            return 1;
         }
-
-        return temp;
     }
 
     @Override
@@ -41,28 +37,33 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         int layoutID;
 
-        if (getItemViewType(position) == ListAdapter.TYPE_NORMAL) {
+        if (getItemViewType(position) == 0) {
             final View v = layoutInflater.inflate(R.layout.item, viewGroup, false);
-            return new Viewholders.ViewHolder(v);
+            return new Viewholders.ViewHolderExistingItem(v);
 
         } else {
             final View v = layoutInflater.inflate(R.layout.new_item, viewGroup, false);
-            return new Viewholders.ViewHolderWithButton(v);
+            return new Viewholders.ViewHolderNewItem(v);
         }
     }
 
     @Override
     public void onBindViewHolder (RecyclerView.ViewHolder entryViewHolder, int index) {
         int viewType = getItemViewType(index);
+        Entry current = this.entries.get(index);
 
-        if (viewType == ListAdapter.TYPE_NORMAL) {
-            ((Viewholders.ViewHolder) entryViewHolder).content.setText(this.entries.get(index).getContent());
-            ((Viewholders.ViewHolder) entryViewHolder).wrapper.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        } else if (viewType == ListAdapter.TYPE_NORMAL_WITH_BUTTON) {
-            ((Viewholders.ViewHolderWithButton) entryViewHolder).content.setText(this.entries.get(index).getContent());
-            ((Viewholders.ViewHolderWithButton) entryViewHolder).button.setText(this.entries.get(index).getButtonText());
-            ((Viewholders.ViewHolderWithButton) entryViewHolder).wrapper.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        if (viewType == 0) {
 
+            Viewholders.ViewHolderExistingItem vh = (Viewholders.ViewHolderExistingItem) entryViewHolder;
+
+            vh.title.setText(current.getTitle());
+            vh.body.setText(current.getContent());
+            vh.delete.setTag(current.getID());
+
+        } else if (viewType == 1) {
+            Viewholders.ViewHolderNewItem vh = (Viewholders.ViewHolderNewItem) entryViewHolder;
+
+            vh.save.setTag(current.getID());
 
         }
     }
@@ -70,5 +71,10 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         return this.entries.size();
+    }
+
+    public void newEntry (View v) {
+
+
     }
 }
